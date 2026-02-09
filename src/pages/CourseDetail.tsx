@@ -192,12 +192,12 @@ export default function CourseDetail() {
                     <User className="w-6 h-6 text-purple-600" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800">Joel Thomasraj</h4>
+                    <h4 className="font-semibold text-gray-800">Ezra Richard</h4>
                     <p className="text-sm text-gray-600">Tutor, Zoe Music Academy</p>
                   </div>
                 </div>
                 <p className="text-sm text-gray-600">
-                  Joel Thomasraj is an accomplished musician, singer, music producer & tutor.
+                  Ezra Richard is an accomplished musician, singer, music producer & tutor.
                 </p>
               </div>
             </div>

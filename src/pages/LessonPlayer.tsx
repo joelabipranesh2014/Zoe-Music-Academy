@@ -2,6 +2,8 @@ import { useParams, Link } from 'react-router-dom';
 import { Play, CheckCircle, Clock, Download, ChevronLeft } from 'lucide-react';
 import { mockCourses, mockLessons } from '../data/mockData';
 import { useState } from 'react';
+import SecureVideoPlayer from '../components/Video/SecureVideoPlayer';
+import { apiClient } from '../services/api';
 
 export default function LessonPlayer() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -54,27 +56,33 @@ export default function LessonPlayer() {
       </div>
 
       <div className="flex flex-col lg:flex-row">
-        {/* Video Player */}
+        {/* Secure Video Player */}
         <div className="flex-1 bg-black">
-          <div className="aspect-video bg-gray-800 flex items-center justify-center">
-            {currentLesson ? (
-              <div className="text-center text-white">
-                <Play className="w-20 h-20 mx-auto mb-4 opacity-50" />
-                <p className="text-xl mb-2">{currentLesson.title}</p>
-                <p className="text-gray-400">
-                  Video player would be embedded here
-                </p>
-                <p className="text-sm text-gray-500 mt-4">
-                  Video URL: {currentLesson.video_url}
-                </p>
-              </div>
-            ) : (
+          {currentLesson ? (
+            <SecureVideoPlayer
+              lessonId={currentLesson.id}
+              courseId={courseId || ''}
+              videoUrl={currentLesson.video_url}
+              title={currentLesson.title}
+              onProgress={(progress) => {
+                // Track progress if needed
+                console.log('Video progress:', progress);
+              }}
+              onComplete={() => {
+                // Mark lesson as complete when video finishes
+                toggleLessonComplete(currentLesson.id);
+                // Update progress on backend
+                apiClient.updateLessonProgress(currentLesson.id, true).catch(console.error);
+              }}
+            />
+          ) : (
+            <div className="aspect-video bg-gray-800 flex items-center justify-center">
               <div className="text-center text-white">
                 <Play className="w-20 h-20 mx-auto mb-4 opacity-50" />
                 <p className="text-xl">Select a lesson to start</p>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* Lesson Info */}
           {currentLesson && (

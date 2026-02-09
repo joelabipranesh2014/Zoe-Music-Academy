@@ -80,10 +80,10 @@ export default function About() {
                 <Users className="w-16 h-16 text-white" />
               </div>
               <div className="flex-1 text-center md:text-left">
-                <h2 className="text-3xl font-bold text-gray-800 mb-4">Joel Thomasraj</h2>
+                <h2 className="text-3xl font-bold text-gray-800 mb-4">Ezra Richard</h2>
                 <p className="text-lg text-purple-600 mb-4">Tutor, Zoe Music Academy</p>
                 <p className="text-gray-700 mb-4">
-                  Joel Thomasraj is an accomplished musician, singer, music producer & tutor. With
+                  Ezra Richard is an accomplished musician, singer, music producer & tutor. With
                   years of experience in the music industry, Joel brings a wealth of knowledge and
                   passion to every lesson.
                 </p>

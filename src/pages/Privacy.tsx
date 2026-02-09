@@ -4,7 +4,7 @@ export default function Privacy() {
       <div className="container mx-auto px-4 max-w-4xl">
         <h1 className="text-4xl font-bold text-gray-800 mb-8">Privacy Policy</h1>
         <div className="bg-white rounded-lg shadow-md p-8 prose max-w-none">
-          <p className="text-gray-600 mb-4">Last updated: January 2025</p>
+          <p className="text-gray-600 mb-4">Last updated: January 2026</p>
           <p className="text-gray-700 mb-4">
             At Zoe Music Academy, we are committed to protecting your privacy. This Privacy Policy
             explains how we collect, use, and safeguard your personal information.
