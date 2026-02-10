@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { mockCourses } from '../data/mockData';
-import type { Course } from '../types';
 
 export function useCourses(filters?: { instrument_type?: string; level?: string }) {
   const courses = useMemo(() => {

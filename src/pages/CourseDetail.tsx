@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { Clock, Play, CheckCircle, Music, User } from 'lucide-react';
+import { Clock, Play, CheckCircle, User } from 'lucide-react';
 import { useCourse } from '../hooks/useCourses';
 import { useLessons } from '../hooks/useLessons';
 import { getCourseImage } from '../utils/imagePaths';
