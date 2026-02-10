@@ -1,20 +1,13 @@
 import { useParams, Link } from 'react-router-dom';
-import { Clock, Play, CheckCircle, Music, User, Loader2 } from 'lucide-react';
+import { Clock, Play, CheckCircle, Music, User } from 'lucide-react';
 import { useCourse } from '../hooks/useCourses';
 import { useLessons } from '../hooks/useLessons';
+import { getCourseImage } from '../utils/imagePaths';
 
 export default function CourseDetail() {
   const { id } = useParams<{ id: string }>();
-  const { course, loading: courseLoading, error: courseError } = useCourse(id);
+  const { course, error: courseError } = useCourse(id);
   const { lessons } = useLessons(id);
-
-  if (courseLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-purple-600 animate-spin" />
-      </div>
-    );
-  }
 
   if (courseError || !course) {
     return (
@@ -39,27 +32,35 @@ export default function CourseDetail() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Course Banner */}
-      <section className="bg-gradient-to-r from-purple-600 to-indigo-700 text-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl">
-            <div className="flex items-center mb-4">
-              <span className="bg-white/20 px-4 py-1 rounded-full text-sm font-semibold mr-3">
-                {course.instrument_type}
-              </span>
-              <span className="bg-white/20 px-4 py-1 rounded-full text-sm font-semibold">
-                {course.level}
-              </span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">{course.title}</h1>
-            <p className="text-xl text-purple-100 mb-6">{course.description}</p>
-            <div className="flex items-center space-x-6">
-              <div className="flex items-center">
-                <Clock className="w-5 h-5 mr-2" />
-                <span>10 Lessons</span>
+      <section className="relative h-[400px] md:h-[500px] overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${getCourseImage(course.id)})` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 to-indigo-900/80"></div>
+        </div>
+        <div className="relative z-10 h-full flex items-center">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl text-white">
+              <div className="flex items-center mb-4">
+                <span className="bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full text-sm font-semibold mr-3">
+                  {course.instrument_type}
+                </span>
+                <span className="bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full text-sm font-semibold">
+                  {course.level}
+                </span>
               </div>
-              <div className="flex items-center">
-                <Play className="w-5 h-5 mr-2" />
-                <span>{lessons.length} Videos</span>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">{course.title}</h1>
+              <p className="text-xl text-purple-100 mb-6">{course.description}</p>
+              <div className="flex items-center space-x-6">
+                <div className="flex items-center">
+                  <Clock className="w-5 h-5 mr-2" />
+                  <span>10 Lessons</span>
+                </div>
+                <div className="flex items-center">
+                  <Play className="w-5 h-5 mr-2" />
+                  <span>{lessons.length} Videos</span>
+                </div>
               </div>
             </div>
           </div>
@@ -146,8 +147,12 @@ export default function CourseDetail() {
           <div className="lg:col-span-1">
             <div className="bg-white p-6 rounded-lg shadow-md sticky top-24">
               <div className="text-center mb-6">
-                <div className="w-32 h-32 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                  <Music className="w-16 h-16 text-white" />
+                <div className="w-32 h-32 rounded-lg mx-auto mb-4 overflow-hidden shadow-md">
+                  <img
+                    src={getCourseImage(course.id)}
+                    alt={course.title}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="text-3xl font-bold text-gray-800 mb-2">
                   ₹{course.price.toLocaleString()}
@@ -156,11 +161,11 @@ export default function CourseDetail() {
               </div>
 
               <div className="space-y-4 mb-6">
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
-                  Enroll Now
+                <button className="w-full bg-gray-400 text-white py-3 rounded-lg font-semibold cursor-not-allowed" disabled>
+                  Coming Soon
                 </button>
-                <button className="w-full bg-white border-2 border-purple-600 text-purple-600 py-3 rounded-lg font-semibold hover:bg-purple-50 transition">
-                  Free Trial
+                <button className="w-full bg-white border-2 border-gray-400 text-gray-400 py-3 rounded-lg font-semibold cursor-not-allowed" disabled>
+                  Coming Soon
                 </button>
               </div>
 

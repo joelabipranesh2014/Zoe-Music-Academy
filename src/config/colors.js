@@ -9,55 +9,89 @@
  */
 
 export const colors = {
-  // Primary Colors
+  // Primary Colors - Midnight Blue (#101828)
   primary: {
-    50: '#faf5ff',
-    100: '#f3e8ff',
-    200: '#e9d5ff',
-    300: '#d8b4fe',
-    400: '#c084fc',
-    500: '#a855f7',
-    600: '#9333ea',  // Main primary color
-    700: '#7e22ce',  // Primary hover/dark variant
-    800: '#6b21a8',
-    900: '#581c87',
+    50: '#e8eaf0',
+    100: '#c5c9d9',
+    200: '#9fa5bf',
+    300: '#7881a5',
+    400: '#5a658f',
+    500: '#3c4979',
+    600: '#101828',  // Main primary color
+    700: '#0d1320',
+    800: '#0a0e18',
+    900: '#070910',
   },
 
-  // Secondary Colors
+  // Secondary Colors - Cool Gray (#667085)
   secondary: {
-    50: '#eef2ff',
-    100: '#e0e7ff',
-    200: '#c7d2fe',
-    300: '#a5b4fc',
-    400: '#818cf8',
-    500: '#6366f1',
-    600: '#4f46e5',
-    700: '#4338ca',  // Main secondary color (indigo-700)
-    800: '#3730a3',
-    900: '#312e81',
+    50: '#f3f4f6',
+    100: '#e5e7eb',
+    200: '#d1d5db',
+    300: '#b8bdc5',
+    400: '#9ca3af',
+    500: '#808999',
+    600: '#667085',  // Main secondary color
+    700: '#4d5566',
+    800: '#3a404d',
+    900: '#272b33',
+  },
+
+  // Accent Colors - Electric Purple (#7F56D9) for CTAs and highlights
+  accent: {
+    50: '#f5f3ff',
+    100: '#ede9fe',
+    200: '#ddd6fe',
+    300: '#c4b5fd',
+    400: '#a78bfa',
+    500: '#8b5cf6',
+    600: '#7F56D9',  // Main accent color
+    700: '#6d3fc7',
+    800: '#5b2fb5',
+    900: '#4a1fa3',
+  },
+
+  // Background Colors
+  background: {
+    default: '#FFFFFF',  // Pure White
+    white: '#ffffff',
+    gray: '#f9fafb',
+  },
+
+  // Text Colors
+  text: {
+    primary: '#1D2939',   // Graphite
+    secondary: '#667085',
+    muted: '#98a2b3',
+    light: '#d0d5dd',
   },
 
   // Button Colors
   button: {
     primary: {
-      bg: '#9333ea',        // Primary button background
-      hover: '#7e22ce',     // Primary button hover
+      bg: '#101828',        // Primary button background (Midnight Blue)
+      hover: '#0d1320',     // Primary button hover (darker blue)
       text: '#ffffff',      // Primary button text
-      border: '#9333ea',    // Primary button border
+      border: '#101828',    // Primary button border
     },
     secondary: {
       bg: '#ffffff',        // Secondary button background
-      hover: '#faf5ff',     // Secondary button hover (purple-50)
-      text: '#9333ea',      // Secondary button text
-      border: '#9333ea',    // Secondary button border
+      hover: '#f9fafb',     // Secondary button hover (light gray)
+      text: '#101828',      // Secondary button text (midnight blue)
+      border: '#667085',    // Secondary button border (cool gray)
+    },
+    accent: {
+      bg: '#7F56D9',        // Accent button background (Electric Purple)
+      hover: '#6d3fc7',     // Accent button hover (darker purple)
+      text: '#ffffff',      // Accent button text
+      border: '#7F56D9',    // Accent button border
     },
     outline: {
       bg: 'transparent',    // Outline button background
       hover: '#ffffff',     // Outline button hover
       text: '#ffffff',      // Outline button text
-      border: '#ffffff',    // Outline button border
-      hoverText: '#9333ea', // Outline button hover text
+      border: '#7F56D9',    // Outline button border (purple)
+      hoverText: '#101828', // Outline button hover text (midnight blue)
     },
   },
 };
-
