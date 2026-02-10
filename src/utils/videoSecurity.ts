@@ -21,8 +21,8 @@ export const detectScreenRecording = (): Promise<boolean> => {
     if (originalMediaRecorder) {
       // Monitor MediaRecorder creation
       window.MediaRecorder = class extends originalMediaRecorder {
-        constructor(...args: any[]) {
-          super(...args);
+        constructor(stream: MediaStream, options?: MediaRecorderOptions) {
+          super(stream, options);
           resolve(true);
         }
       } as any;
@@ -170,7 +170,7 @@ export const generateSecureVideoUrl = (
 };
 
 // Validate video token
-export const validateVideoToken = (token: string, expiresAt: number): boolean => {
+export const validateVideoToken = (_token: string, expiresAt: number): boolean => {
   return Date.now() < expiresAt;
 };
 

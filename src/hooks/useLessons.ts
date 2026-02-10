@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { mockLessons } from '../data/mockData';
-import type { Lesson } from '../types';
 
 export function useLessons(courseId: string | undefined) {
   const lessons = useMemo(() => {
@@ -11,7 +10,7 @@ export function useLessons(courseId: string | undefined) {
   return { lessons, loading: false, error: null };
 }
 
-export function useLessonProgress(lessonId: string) {
+export function useLessonProgress(_lessonId: string) {
   // Static implementation - no progress tracking in static version
   return { isCompleted: false, updateProgress: async () => false, updating: false };
 }

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, Shield, AlertCircle } from 'lucide-react';
 import { apiClient } from '../../services/api';
-import { getToken } from '../../utils/auth';
 
 interface SecureVideoPlayerProps {
   lessonId: string;
@@ -16,7 +15,6 @@ export default function SecureVideoPlayer({
   lessonId,
   courseId,
   videoUrl,
-  title,
   onProgress,
   onComplete,
 }: SecureVideoPlayerProps) {
@@ -128,8 +126,6 @@ export default function SecureVideoPlayer({
   // Security: Detect if video is being captured
   useEffect(() => {
     if (!videoRef.current) return;
-
-    const video = videoRef.current;
 
     const handleVisibilityChange = () => {
       if (document.hidden && isPlaying) {
