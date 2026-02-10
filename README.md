@@ -119,7 +119,7 @@ Currently uses localStorage for mock authentication. Replace with real backend A
 
 ## 📄 License
 
-Copyright © 2025. All rights reserved.
+Copyright © 2026. All rights reserved.
 
 ## 👨‍💻 Development
 

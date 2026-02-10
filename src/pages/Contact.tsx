@@ -1,5 +1,6 @@
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Loader2 } from 'lucide-react';
 import { useState } from 'react';
+import { sendContactEmail } from '../services/emailService';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -9,12 +10,42 @@ export default function Contact() {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setError(null);
+    setLoading(true);
+
+    try {
+      const result = await sendContactEmail({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+      });
+
+      if (result.success) {
+        setSubmitted(true);
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+        });
+        // Hide success message after 5 seconds
+        setTimeout(() => setSubmitted(false), 5000);
+      } else {
+        setError(result.error || 'Failed to send message. Please try again.');
+      }
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
+      console.error('Contact form error:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,32 +66,32 @@ export default function Contact() {
               
               <div className="space-y-6">
                 <div className="flex items-start">
-                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                    <Mail className="w-6 h-6 text-purple-600" />
+                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                    <Mail className="w-6 h-6 text-primary-600" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-800 mb-1">Email</h3>
-                    <a href="mailto:info@zoemusicacademy.com" className="text-purple-600 hover:underline">
+                    <a href="mailto:info@zoemusicacademy.com" className="text-primary-600 hover:text-primary-700 hover:underline">
                       info@zoemusicacademy.com
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start">
-                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                    <Phone className="w-6 h-6 text-purple-600" />
+                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                    <Phone className="w-6 h-6 text-primary-600" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-800 mb-1">Phone</h3>
-                    <a href="tel:08668119674" className="text-purple-600 hover:underline">
+                    <a href="tel:08668119674" className="text-primary-600 hover:text-primary-700 hover:underline">
                       086681 19674
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start">
-                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-purple-600" />
+                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                    <MapPin className="w-6 h-6 text-primary-600" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-800 mb-1">Address</h3>
@@ -98,6 +129,12 @@ export default function Contact() {
                 </div>
               )}
 
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+                  {error}
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -108,8 +145,9 @@ export default function Contact() {
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-600 focus:border-transparent"
                     required
+                    disabled={loading}
                   />
                 </div>
 
@@ -122,21 +160,23 @@ export default function Contact() {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-600 focus:border-transparent"
                     required
+                    disabled={loading}
                   />
                 </div>
 
                 <div>
                   <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Phone Number
+                    Mobile Number
                   </label>
                   <input
                     id="phone"
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-600 focus:border-transparent"
+                    disabled={loading}
                   />
                 </div>
 
@@ -149,17 +189,28 @@ export default function Contact() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-600 focus:border-transparent"
                     required
+                    disabled={loading}
                   ></textarea>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition flex items-center justify-center"
+                  disabled={loading}
+                  className="w-full bg-accent-600 text-white py-3 rounded-lg font-semibold hover:bg-accent-700 transition flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Send className="w-5 h-5 mr-2" />
-                  Send Message
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5 mr-2" />
+                      Send Message
+                    </>
+                  )}
                 </button>
               </form>
             </div>
@@ -169,4 +220,3 @@ export default function Contact() {
     </div>
   );
 }
-

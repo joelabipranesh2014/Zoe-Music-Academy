@@ -1,147 +1,106 @@
-import { Link } from 'react-router-dom';
-import { Menu, X, User, LogOut, Settings } from 'lucide-react';
-import { useState } from 'react';
-import { isAuthenticated, getUser, logout } from '../../utils/auth';
-import { isAdmin } from '../../utils/admin';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const authenticated = isAuthenticated();
-  const user = getUser();
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
-  const handleLogout = () => {
-    logout();
-    window.location.href = '/login';
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location]);
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/95 backdrop-blur-md shadow-lg'
+          : 'bg-white shadow-md'
+      }`}
+    >
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-bold text-purple-600">🎼</span>
-            <span className="text-xl font-bold text-gray-800">Zoe Music Academy</span>
+          <Link
+            to="/"
+            className="flex items-center space-x-2 group transition-transform hover:scale-105"
+          >
+            <span className="text-3xl font-bold text-purple-600 transition-transform group-hover:rotate-12">
+              🎼
+            </span>
+            <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+              Zoe Music Academy
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
-            <Link to="/courses" className="text-gray-700 hover:text-purple-600 transition">
-              Courses
-            </Link>
-            <Link to="/about" className="text-gray-700 hover:text-purple-600 transition">
-              About Us
-            </Link>
-            <Link to="/faq" className="text-gray-700 hover:text-purple-600 transition">
-              FAQ
-            </Link>
-            <Link to="/contact" className="text-gray-700 hover:text-purple-600 transition">
-              Contact
-            </Link>
-            
-            {authenticated ? (
-              <>
-                {isAdmin() && (
-                  <Link
-                    to="/admin"
-                    className="flex items-center space-x-1 text-gray-700 hover:text-purple-600 transition"
-                  >
-                    <Settings className="w-4 h-4" />
-                    <span>Admin</span>
-                  </Link>
-                )}
-                <Link
-                  to="/dashboard"
-                  className="flex items-center space-x-1 text-gray-700 hover:text-purple-600 transition"
-                >
-                  <User className="w-4 h-4" />
-                  <span>{user?.name || 'Dashboard'}</span>
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center space-x-1 text-gray-700 hover:text-red-600 transition"
-                >
-                  <LogOut className="w-4 h-4" />
-                  <span>Logout</span>
-                </button>
-              </>
-            ) : (
+          <div className="hidden md:flex items-center space-x-8">
+            {[
+              { to: '/courses', label: 'Courses' },
+              { to: '/about', label: 'About Us' },
+              { to: '/faq', label: 'FAQ' },
+              { to: '/contact', label: 'Contact' },
+            ].map((item) => (
               <Link
-                to="/login"
-                className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition"
+                key={item.to}
+                to={item.to}
+                className="relative text-gray-700 hover:text-purple-600 transition-colors font-medium group"
               >
-                Join Now
+                {item.label}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
               </Link>
-            )}
+            ))}
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-gray-700"
+            className="md:hidden text-gray-700 hover:text-purple-600 transition-colors p-2 rounded-lg hover:bg-purple-50"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? (
+              <X className="w-6 h-6 animate-fade-in" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
           </button>
         </div>
 
         {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-4 space-y-4 pb-4">
-            <Link
-              to="/courses"
-              className="block text-gray-700 hover:text-purple-600 transition"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Courses
-            </Link>
-            <Link
-              to="/about"
-              className="block text-gray-700 hover:text-purple-600 transition"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              About Us
-            </Link>
-            <Link
-              to="/faq"
-              className="block text-gray-700 hover:text-purple-600 transition"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              FAQ
-            </Link>
-            <Link
-              to="/contact"
-              className="block text-gray-700 hover:text-purple-600 transition"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Contact
-            </Link>
-            {authenticated ? (
-              <>
-                <Link
-                  to="/dashboard"
-                  className="block text-gray-700 hover:text-purple-600 transition"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Dashboard
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="block text-gray-700 hover:text-red-600 transition w-full text-left"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            mobileMenuOpen ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className="space-y-2 pb-4">
+            {[
+              { to: '/courses', label: 'Courses' },
+              { to: '/about', label: 'About Us' },
+              { to: '/faq', label: 'FAQ' },
+              { to: '/contact', label: 'Contact' },
+            ].map((item, idx) => (
               <Link
-                to="/login"
-                className="block bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition text-center"
+                key={item.to}
+                to={item.to}
+                className="block px-4 py-3 text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all transform hover:translate-x-2 font-medium"
                 onClick={() => setMobileMenuOpen(false)}
+                style={{ animationDelay: `${idx * 50}ms` }}
               >
-                Join Now
+                {item.label}
               </Link>
-            )}
+            ))}
           </div>
-        )}
+        </div>
       </nav>
     </header>
   );

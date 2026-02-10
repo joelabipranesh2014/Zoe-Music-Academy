@@ -55,6 +55,11 @@ export const API_ENDPOINTS = {
   CONTACT: {
     SUBMIT: '/contact',
   },
+  // Secure Video
+  VIDEO: {
+    SECURE_TOKEN: (lessonId: string, courseId: string) => `/video/secure-token/${lessonId}?courseId=${courseId}`,
+    REPORT_VIOLATION: (lessonId: string) => `/video/security-violation/${lessonId}`,
+  },
   // Admin
   ADMIN: {
     DASHBOARD: '/admin/dashboard',

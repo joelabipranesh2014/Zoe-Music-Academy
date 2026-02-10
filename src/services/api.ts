@@ -317,6 +317,24 @@ class ApiClient {
       method: 'DELETE',
     });
   }
+
+  // Secure Video APIs
+  async getSecureVideoToken(lessonId: string, courseId: string): Promise<ApiResponse<{
+    token: string;
+    watermark: string;
+    expiresAt: string;
+  }>> {
+    return this.request<{ token: string; watermark: string; expiresAt: string }>(
+      API_ENDPOINTS.VIDEO.SECURE_TOKEN(lessonId, courseId)
+    );
+  }
+
+  async reportSecurityViolation(lessonId: string, reason: string): Promise<ApiResponse<void>> {
+    return this.request<void>(API_ENDPOINTS.VIDEO.REPORT_VIOLATION(lessonId), {
+      method: 'POST',
+      body: JSON.stringify({ reason, timestamp: new Date().toISOString() }),
+    });
+  }
 }
 
 // Export singleton instance

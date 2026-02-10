@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Music, Filter, Loader2 } from 'lucide-react';
+import { Music, Filter } from 'lucide-react';
 import { useCourses } from '../hooks/useCourses';
+import { getCourseImage } from '../utils/imagePaths';
 
 export default function Courses() {
   const [searchParams] = useSearchParams();
@@ -17,7 +18,7 @@ export default function Courses() {
     level: selectedLevel !== 'all' ? selectedLevel : undefined,
   };
 
-  const { courses, loading, error } = useCourses(filters);
+  const { courses } = useCourses(filters);
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -92,25 +93,24 @@ export default function Courses() {
 
           {/* Courses Grid */}
           <div className="flex-1">
-            {loading ? (
-              <div className="flex items-center justify-center py-12">
-                <Loader2 className="w-8 h-8 text-purple-600 animate-spin" />
-              </div>
-            ) : error ? (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-                {error}
-              </div>
-            ) : courses.length > 0 ? (
+            {courses.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {courses.map((course) => (
                   <div
                     key={course.id}
                     className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition"
                   >
-                    <div className="h-48 bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center relative">
-                      <Music className="w-20 h-20 text-white opacity-80" />
+                    <div className="h-48 relative overflow-hidden">
+                      <img
+                        src={getCourseImage(course.id)}
+                        alt={course.title}
+                        className="w-full h-full object-cover"
+                      />
                       <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-semibold text-purple-600">
                         {course.level}
+                      </div>
+                      <div className="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        {course.instrument_type}
                       </div>
                     </div>
                     <div className="p-6">

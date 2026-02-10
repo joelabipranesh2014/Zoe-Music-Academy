@@ -25,22 +25,22 @@ const faqs: FAQItem[] = [
   {
     question: 'Can I try a class before committing?',
     answer:
-      'Yes! We offer a free trial lesson for each of our courses. This gives you a chance to experience our teaching style and the quality of our lessons before you decide to enroll.',
+      'Yes! We offer a free trial lesson for each of our courses. This gives you a chance to experience our teaching style and the quality of our lessons before you make a decision.',
   },
   {
     question: 'How do I access the online lessons?',
     answer:
-      "Once you enroll, you'll receive access to our online platform, where you can watch lessons, practice exercises, and track your progress. Lessons are available anytime, anywhere, so you can learn at your convenience.",
+      "Our online platform allows you to watch lessons, practice exercises, and learn at your own pace. Lessons are available anytime, anywhere, so you can learn at your convenience.",
   },
   {
-    question: 'How do I receive my login details?',
+    question: 'How do I get started with a course?',
     answer:
-      'After successful payment, you will receive your login details via email within 24 hours. You can then use these details to access the online courses and start learning right away.',
+      'You can browse our courses and view course details to learn more about what each course offers. Contact us for more information about getting started with your musical journey.',
   },
   {
     question: 'How long is my course access valid for?',
     answer:
-      'Your course login will be valid for 6 months from the date of enrollment. After that, you can choose to extend your access or, in some cases, enjoy lifetime access to your course, depending on the package or promotion you select.',
+      'Course access duration varies depending on the course package. Contact us for specific details about access duration and any available extensions for your chosen course.',
   },
   {
     question: 'What payment methods do you accept?',

@@ -1,52 +1,18 @@
-import { useState, useEffect } from 'react';
-import { apiClient } from '../services/api';
+import { useMemo } from 'react';
+import { mockLessons } from '../data/mockData';
 import type { Lesson } from '../types';
 
 export function useLessons(courseId: string | undefined) {
-  const [lessons, setLessons] = useState<Lesson[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!courseId) {
-      setLoading(false);
-      return;
-    }
-
-    const fetchLessons = async () => {
-      setLoading(true);
-      setError(null);
-      const response = await apiClient.getLessonsByCourse(courseId);
-      
-      if (response.success && response.data) {
-        setLessons(response.data);
-      } else {
-        setError(response.error || 'Failed to fetch lessons');
-      }
-      setLoading(false);
-    };
-
-    fetchLessons();
+  const lessons = useMemo(() => {
+    if (!courseId) return [];
+    return mockLessons.filter(lesson => lesson.course_id === courseId);
   }, [courseId]);
 
-  return { lessons, loading, error };
+  return { lessons, loading: false, error: null };
 }
 
 export function useLessonProgress(lessonId: string) {
-  const [isCompleted, setIsCompleted] = useState(false);
-  const [updating, setUpdating] = useState(false);
-
-  const updateProgress = async (completed: boolean) => {
-    setUpdating(true);
-    const response = await apiClient.updateLessonProgress(lessonId, completed);
-    
-    if (response.success) {
-      setIsCompleted(completed);
-    }
-    setUpdating(false);
-    return response.success;
-  };
-
-  return { isCompleted, updateProgress, updating };
+  // Static implementation - no progress tracking in static version
+  return { isCompleted: false, updateProgress: async () => false, updating: false };
 }
 
